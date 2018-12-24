@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios 发送 ajax</title>
+
+    <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.css">
+    <script src="bootstrap/jquery.js"></script>
+    <script src="bootstrap/bootstrap.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script type="text/javascript">
+
+        Vue.config.productionTip = false;
+
+        window.onload = function () {
+
+            new Vue({
+                el: '#app',
+                data() {
+                    return{
+                        user: {}
+                    }
+                },
+                methods: {
+                    loginUser: function () {
+                        console.log('1111');
+                        axios({
+                            url: 'http://localhost:8081/login',
+                            method: 'post',
+                            data: {
+                                username: this.user.username,
+                                password: this.user.password,
+                                flag: this.user.flag
+                            }
+                        }).then(resp => {
+                            console.log(resp);
+                            alert("1233")
+                        }).catch(err => {
+                            console.log(err);
+                            alert("4566")
+                        })
+                    }
+                }
+            })
+
+        }
+
+    </script>
+
+</head>
+<body>
+    <div id="app" class="container">
+        <h3 class="text-center text-info">用户登录</h3>
+        <form role="form" class="text-center">
+            <div class="form-group">
+                <label for="username" class="control-label col-sm-2 col-sm-offset-2">用户名:</label>
+                <div class="col-sm-6">
+                    <input type="text" v-model="user.username" id="username" class="form-control col-sm-6" placeholder="请输入用户名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="control-label col-sm-2 col-sm-offset-2">密 码:</label>
+                <div class="col-sm-6">
+                    <input type="password" v-model="user.password" id="password" class="form-control col-sm-6" placeholder="请输入密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2 col-sm-offset-2">身份:</label>
+                <div class="col-sm-6">
+                    <input type="radio" v-model="user.flag" value="0" class="radio-inline">学生
+                    <input type="radio" v-model="user.flag" value="1" class="radio-inline">教师
+                    <input type="radio" v-model="user.flag" value="2" class="radio-inline">管理员
+                </div>
+            </div>
+            <div class="form-group col-sm-12 text-center">
+                <button @click="loginUser" class="btn btn-primary">
+                    登录
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

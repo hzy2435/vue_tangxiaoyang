@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟百度搜索</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.min.js"></script>
+    <script type="text/javascript">
+
+        Vue.config.productionTip = false;
+        window.onload = function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    keyword: '',
+                    results: [],
+                    nowIndex: -1
+                },
+                methods: {
+                    getSearch(e) {
+
+                        if(e.keyCode === 38 || e.keyCode === 40) {
+                            return;
+                        }
+
+                        this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su', {
+                            params: {
+                                wd: this.keyword
+                            },
+                            jsonp: 'cb'
+                        }).then(resp => {
+                            this.results = resp.data.s;
+                        }).catch(err => {
+                            console.log(err);
+                        })
+                    },
+                    selectNext: function () {
+                        this.nowIndex++;
+                        this.keyword = this.results[this.nowIndex];
+                        if(this.nowIndex === this.results.length) {
+                            this.nowIndex = -1;
+                        }
+                    },
+                    selectLast: function () {
+                        this.nowIndex--;
+                        this.keyword = this.results[this.nowIndex];
+                        if(this.nowIndex === 0) {
+                            this.nowIndex = this.results.length;
+                        }
+                    }
+                }
+            })
+        }
+
+    </script>
+
+    <style type="text/css">
+        [v-block] {
+            display: none;
+        }
+        .selected {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" @keyup="getSearch($event)" v-model="keyword" @keyup.down.prevent="selectNext" @keyup.up.prevent="selectLast">
+        <ul>
+            <li v-for="(value, index) in results" :class="{ selected: index === nowIndex}">
+                <span v-cloak>{{ value }}</span>
+            </li>
+        </ul>
+        <div v-show="results.length === 0">暂无数据</div>
+    </div>
+</body>
+</html>

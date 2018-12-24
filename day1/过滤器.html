@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义过滤器</title>
+    <script src="js/vue.js"></script>
+    <script>
+
+        Vue.config.productionTip = false;
+
+        Vue.filter("addZero", data => {
+            return data < 10 ? '0' + data : data;
+        });
+        Vue.filter("numFormat", (data, n) => {
+            return data.toFixed(n);
+        });
+
+        window.onload = function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    msg: 1,
+                    floatNum: 3.1415926,
+                    nowDate: new Date().getTime()
+                },
+                filters: {
+                    dateFormat: data => {
+                        console.log(data);
+                        let d = new Date(data);
+                        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                    }
+                }
+            })
+        }
+
+    </script>
+    
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <span v-cloak>
+            {{ msg | addZero }}
+        </span>
+        <hr/>
+        <span v-cloak>
+            {{ floatNum | numFormat(1) }}
+        </span>
+        <hr/>
+        <span v-cloak>
+            {{ nowDate | dateFormat }}
+        </span>
+    </div>
+
+</body>
+</html>

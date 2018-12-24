@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件冒泡与事件默认行为</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+
+        Vue.config.productionTip = false;
+        window.onload = function () {
+
+            new Vue({
+                el: '#app',
+                methods: {
+                    clickDiv1(){
+                        console.info("clickDiv1");
+                    },
+                    clickDiv2(){
+                        console.info("clickDiv2");
+                    },
+                    /*clickButton(e){
+                        e.stopPropagation();
+                        console.info("clickButton");
+                    }*/
+                    clickButton(){
+                        console.info("clickButton");
+                    },
+                    /*clickA(e){
+                        e.preventDefault();
+                        console.info("clickA");
+                    }*/
+                    clickA(){
+                        console.info("clickA");
+                    },
+                    sendEnter() {
+                        console.info("回车");
+                    }
+                }
+            })
+
+        }
+
+    </script>
+</head>
+<body>
+    <div id="app" @click="clickDiv1">
+        <div @click="clickDiv2">
+            <!--<button @click="clickButton($event)">点击</button>-->
+            <button @click.stop="clickButton">点击</button>
+            <br>
+        </div>
+        <!--<a href="#" @click="clickA($event)">阻值默认行为</a>-->
+        <a href="#" @click.prevent="clickA">阻值默认行为</a>
+        <input type="text" name="name" id="name" @keydown.enter="sendEnter">
+    </div>
+</body>
+</html>

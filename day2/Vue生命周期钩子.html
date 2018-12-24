@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 生命周期钩子函数</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            new Vue({
+               el: '#app',
+               data: {
+                   msg: 'Vue 的生命周期钩子'
+               },
+                beforeCreate(){
+                   alert('组件实例刚刚创建, 还未进行数据观测和事件配置.');
+                },
+                created(){
+                   alert('组件已经创建完成, 并且已经进行数据检测和事件配置');
+                },
+                beforeMount(){
+                   alert('模板编译之前, 还没挂载');
+                },
+                mounted(){
+                   alert('模板编译之后, 已经挂载, 此时才会渲染页面, 才能看到页面上数据的展示')
+                },
+                beforeUpdate(){
+                   alert('组件更新之前');
+                },
+                update(){
+                   alert('组件更新之后');
+                },
+                beforeDestroy() {
+                    alert('组件销毁之前');
+                },
+                destroy(){
+                   alert('组件销毁之后');
+                }
+            })
+        }
+    </script>
+    <style type="text/css">
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <span v-cloak>{{ msg }}</span>
+        <input v-model="msg">
+    </div>
+</body>
+</html>

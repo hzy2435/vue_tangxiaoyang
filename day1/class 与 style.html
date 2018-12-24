@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class 与 style</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+
+        Vue.config.productionTip = false;
+
+        window.onload = function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    cc: 'aa',
+                    dd: ['aa', 'bb']
+                }
+            })
+        }
+
+    </script>
+
+    <style type="text/css">
+        .aa{
+            color: red;
+            font-size: 20px;
+        }
+        .bb {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <!--以变量的方式-->
+        <span :class="cc">应用class属性</span>
+        <!--以数组的方式-->
+        <span :class="dd">应用class属性</span>
+        <!--以json的方式-->
+        <span :class="{aa: false, bb: true}">应用class属性</span>
+    </div>
+
+</body>
+</html>

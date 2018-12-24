@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件对象: $event</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        window.onload = function () {
+
+            new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+                    showMe(e) {
+                        console.log(e);
+                        console.log(e.target.innerHTML);
+                    }
+                }
+            })
+
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <button @click="showMe($event)">点我</button>
+    </div>
+</body>
+</html>

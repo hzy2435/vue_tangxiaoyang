@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+        window.onload=function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    msg: 'I have pencail',
+                    num1: 11
+                },
+                computed: {
+                    msgReversed: function () {
+                        return this.msg.split(' ').reverse().join(' ');
+                    },
+                    mulNum1: {
+                        get: function () {
+                            return this.num1 --;
+                        },
+                        set: function (n1) {
+                            this.num1 = n1;
+                        }
+                    }
+                },
+                methods: {
+                    changeNum1(){
+                        this.mulNum1 = 110;
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        {{ msg }}
+        <div>{{ msgReversed }}</div>
+
+        <span>{{ num1 }}</span>
+        <button @click = "changeNum1">改变num1</button>
+    </div>
+</body>
+</html>

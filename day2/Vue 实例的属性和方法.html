@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 实例的属性和方法</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+        window.onload = function () {
+
+            let vm = new Vue({
+                el: '#app',
+                data: {
+                    msg: 'hello vue!'
+                },
+                name: 'lsakjd',
+                age: 20
+            });
+
+            console.log("vm.$el: " + vm.$el);
+            console.log("vm.$el.textContent: " + vm.$el.textContent);
+            console.log("vm.$data: " + vm.$data);
+            console.log("vm.$data.msg: " + vm.$data.msg);
+            console.log("vm.$options: " + vm.$options);
+            console.log("vm.$options.name: " + vm.$options.name + ", vm.$options.age: " + vm.$options.age);
+            console.log("vm.$refs: " + vm.$refs);
+            console.log("vm.$refs.info: " + vm.$refs.info.textContent);
+        };
+    </script>
+    <style type="text/css">
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <span ref="info" v-cloak>{{msg}}</span>
+    </div>
+
+</body>
+</html>
