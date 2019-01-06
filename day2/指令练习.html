@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令练习: 实现 div 的拖拽</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+
+        Vue.config.productionTip=false;
+        Vue.directive('drag', function (el) {
+            console.log('el: ' + el);
+            el.onmousedown=function (e) {
+                // 获取鼠标点击处分别与 div 左边和上边的距离: 鼠标位置 - div位置
+                let disX=e.clientX - el.offsetLeft;
+                let disY=e.clientY - el.offsetTop;
+
+                // 包含在 onmousedown 里面, 表示点击后才移动, 为防止鼠标移出 div, 使用 document.onmousemove
+                document.onmousemove=function (e) {
+                    // 获取移动后 div 的位置: 鼠标位置-disX/disY
+                    let l = e.clientX - disX;
+                    let t = e.clientY - disY;
+
+                    el.style.left = l + 'px';
+                    el.style.top = t + 'px';
+                };
+
+                // 停止移动
+                document.onmouseup=function (e) {
+                    document.onmousemove=null;
+                    document.onmouseup=null;
+                }
+            }
+        });
+
+        window.onload=function () {
+            new Vue({
+                el: '#app'
+            })
+        }
+
+    </script>
+
+    <style type="text/css">
+        #app div{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+        #app .hello{
+            background-color: red;
+            left: 0;
+            top: 0;
+        }
+        #app .world{
+            background-color: blue;
+            right: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="hello" v-drag>itany</div>
+        <div class="world" v-drag>网博</div>
+    </div>
+
+</body>
+</html>

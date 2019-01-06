@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 自定义指令</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+
+        Vue.config.productionTip=false;
+        // 自定义全局指令
+        Vue.directive('hello', {
+            bind(el, binding){
+                alert('指令第一次绑定到元素上时调用, 只调用一次, 可执行初始化操作.');
+                console.log('bind: el: ' + el + ', binding: ' + binding);
+            },
+            inserted(){
+                alert('被绑定元素插入到 DOM 中时调用');
+            },
+            update(){
+                alert('被绑定元素所在模板更新时调用');
+            },
+            componentUpdated(){
+                alert('被绑定元素所在模板完成一次更新周期时调用');
+            },
+            unbind(){
+                alert('指令与元素解绑时调用, 只调用一次.');
+            }
+        });
+
+        Vue.directive('world', function (el, binding) {
+            alert('相当于书写 bind、update 钩子函数');
+            console.log('el: ' + el);
+            console.log('el.textContent: ' + el.textContent);
+            console.log('binding: ' + binding);
+            console.log('binding.name: ' + binding.name);
+        });
+
+        window.onload=function () {
+            new Vue({
+                data: {
+                    msg: 'hello vue.'
+                },
+                directives: {
+                    focus: {
+                        inserted(el, binding) {
+                            el.focus();
+                        }
+                    }
+                }
+            }).$mount('#app');
+        }
+
+    </script>
+
+    <style type="text/css">
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <span v-cloak> {{ msg }} </span>
+        <br>
+        <!--<input type="text" v-model="msg" v-hello>-->
+        <!--<input type="text" v-model="msg" v-world>-->
+        <input type="text" v-model="msg" v-forcus>
+    </div>
+</body>
+</html>

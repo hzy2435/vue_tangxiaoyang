@@ -25,6 +25,22 @@
             console.log("vm.$options.name: " + vm.$options.name + ", vm.$options.age: " + vm.$options.age);
             console.log("vm.$refs: " + vm.$refs);
             console.log("vm.$refs.info: " + vm.$refs.info.textContent);
+
+            vm.$destroy();
+
+            let vm2 = new Vue({
+                data: {
+                    name: '123'
+                }
+            }).$mount("#testMethod");
+
+            vm2.$data.name='hzy';
+            console.log("vm2.$el.textContent: " + vm2.$el.textContent);
+
+            vm2.$data.name="lps";
+            vm2.$nextTick(function () {
+                console.log("vm2.$el.textContent: " + vm2.$el.textContent);
+            })
         };
     </script>
     <style type="text/css">
@@ -37,6 +53,10 @@
 
     <div id="app">
         <span ref="info" v-cloak>{{msg}}</span>
+    </div>
+
+    <div id="testMethod">
+        {{ name }}
     </div>
 
 </body>

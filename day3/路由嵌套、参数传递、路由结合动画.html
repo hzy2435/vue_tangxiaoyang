@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由嵌套、参数传递、路由结合动画</title>
+    <link href="css/animate.css"></link>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.min.js"></script>
+    <style type="text/css">
+        .router-link-active {
+            font-size: 25px;
+            color: #ac2925;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">首页</router-link>
+        <router-link to="/user">个人中心</router-link>
+
+        <transition enter-active-class="animate tada" leave-active-class="animate bounceOutRight">
+            <router-view></router-view>
+        </transition>
+
+        <button @click="routePush">routePush</button>
+        <button @click="routeReplace">routeReplace</button>
+    </div>
+    
+    <template id="home">
+        <div>
+            我是首页
+        </div>
+    </template>
+    <template id="user">
+        <div>
+            我是个人中心
+            <br>
+            <ul>
+                <router-link to="/regist?username=tom&password=123" tag="li">注册</router-link>
+                <router-link to="/login/alice/456" tag="li">登录</router-link>
+            </ul>
+            <router-view></router-view>
+        </div>
+    </template>
+    
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+        
+        let HOME = {
+            template: '#home'
+        };
+        let USER = {
+            template: '#user'
+        };
+        let REGIST = {
+            template: '<h3>我是注册组件，查询方式参数: {{$route.query}}, 路径: {{$route.path}}</h3>'
+        };
+        let LOGIN = {
+            template: '<h3>我是登录组件, rest风格参数: {{$route.params}}, 路径: {{$route.path}}</h3>'
+        };
+        
+        const routes = [
+            {
+                path: '/home', 
+                component: HOME
+            },
+            {
+                path: '/user',
+                component: USER,
+                children: [
+                    {
+                        path: '/regist',
+                        component: REGIST
+                    },
+                    {
+                        path: '/login/:username/:password',
+                        component: LOGIN
+                    }
+                ]
+            },
+            {
+                path: '*',
+                redirect: '/home'
+            }
+        ];
+        const router = new VueRouter({
+            routes
+        });
+        
+        new Vue({
+            router,
+            methods: {
+                routePush() {
+                    router.push('/home');
+                },
+                routeReplace() {
+                    router.replace('/user');    // 不产生历史记录
+                }
+            }
+        }).$mount('#app');
+    </script>
+</body>
+</html>

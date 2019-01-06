@@ -6,7 +6,7 @@
     <script src="js/vue.js"></script>
     <script type="text/javascript">
         window.onload = function () {
-            new Vue({
+            let vm = new Vue({
                el: '#app',
                data: {
                    msg: 'Vue 的生命周期钩子'
@@ -26,7 +26,7 @@
                 beforeUpdate(){
                    alert('组件更新之前');
                 },
-                update(){
+                updated(){
                    alert('组件更新之后');
                 },
                 beforeDestroy() {
@@ -35,7 +35,7 @@
                 destroy(){
                    alert('组件销毁之后');
                 }
-            })
+            });
         }
     </script>
     <style type="text/css">

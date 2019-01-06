@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间的通信</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-a></my-a>
+        <hr>
+        <my-b></my-b>
+        <hr>
+        <my-c></my-c>
+    </div>
+    <template id="a">
+        <div>
+            <h3>我是 a 组件.</h3>
+            <span>自己的数据: {{ name }}, {{ age }}</span>
+            <br>
+            <button @click="sendData">向 B 组件传递数据</button>
+        </div>
+    </template>
+    <template id="b">
+        <div>
+            <h3>我是 b 组件.</h3>
+            <span>来自a组件的数据: {{n}}, {{a}}</span>
+        </div>
+    </template>
+    <template id="c">
+        <div>
+            <h3>我是 c 组件.</h3>
+        </div>
+    </template>
+    <script type="text/javascript">
+
+        let messageVue = new Vue();
+
+        let vm = new Vue({
+            el: '#app',
+            components: {
+                'my-a': {
+                    template: '#a',
+                    data(){
+                        return {
+                            name: 'tom',
+                            age: 23
+                        }
+                    },
+                    methods: {
+                        sendData() {
+                            messageVue.$emit('event-a', this.name, this.age);
+                        }
+                    }
+                },
+                'my-b': {
+                    template: '#b',
+                    data(){
+                        return {
+                            n: '',
+                            a: ''
+                        }
+                    },
+                    mounted(){
+                        messageVue.$on('event-a', (name, age) => {
+                            this.n = name;
+                            this.a = age;
+                        })
+                    }
+                },
+                'my-c': {
+                    template: '#c'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

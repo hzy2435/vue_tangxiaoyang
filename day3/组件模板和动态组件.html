@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件模板和动态组件: template, component, keep-alive</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="flag='my-hello'">切换 hello 组件</button>
+        <button @click="flag='my-world'">切换 world 组件</button>
+        <!-- 动态组件 -->
+        <!-- 使用缓存组件 -->
+        <keep-alive>
+            <component :is="flag">
+                <my-hello></my-hello>
+                <my-world></my-world>
+            </component>
+        </keep-alive>
+    </div>
+
+    <template id="myTemplate">
+        <div>
+            <h3>{{ msg }} : {{ x }}</h3>
+            <ul>
+                <li v-for="(v,k) in arr">
+                    {{ k+1 }} : {{ v }}
+                </li>
+            </ul>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+        new Vue({
+           el: '#app',
+            data: {
+               flag: 'my-hello'
+            },
+           components: {
+               'my-hello': {
+                   template: '#myTemplate',
+                   data(){
+                       return{
+                           msg: 'hello world',
+                           arr: ['abc', 'bdc', 'efg', 'kkk'],
+                           x: Math.random()
+                       };
+                   }
+               },
+               'my-world': {
+                   template: '<h3>我的世界: {{ y }}</h3>',
+                   data() {
+                       return {
+                           y: Math.random()
+                       }
+                   }
+               }
+           }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建组件的两种方式</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <hello></hello>
+        <world></world>
+    </div>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+
+        // 方式1: 先创建组件构造器, 再由组件构造器创建组件
+        // 1.1 创建组件构造器
+        let myComponent = Vue.extend({
+            template: '<h3>hello world</h3>'
+        });
+        // 1.2 由组件构造器创建组件
+        Vue.component('hello', myComponent);
+
+        // 方式2: 直接创建组件
+        Vue.component('world', {
+            template: '<h1>你好, 世界!</h1>'
+        });
+
+        new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slot内容分发</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-hello>使用slot</my-hello>
+        <my-world>
+            <ul slot="name">
+                <li>小白</li>
+                <li>小红</li>
+                <li>小李</li>
+                <li>小张</li>
+            </ul>
+            <ol slot="sex">
+                <li>男</li>
+                <li>女</li>
+                <li>未知</li>
+                <li>神秘</li>
+            </ol>
+        </my-world>
+    </div>
+    <template id="hello">
+        <div>
+            <h3>我是hello组件.</h3>
+            <slot></slot>
+        </div>
+    </template>
+    <template id="world">
+        <div>
+            <slot name="name"></slot>
+            <h3>我是world组件.</h3>
+            <slot name="sex"></slot>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+        new Vue({
+            components: {
+                'my-hello': {
+                    template: '#hello'
+                },
+                'my-world': {
+                    template: '#world'
+                }
+            }
+        }).$mount('#app');
+    </script>
+</body>
+</html>

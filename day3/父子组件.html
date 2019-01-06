@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子组件及组件间的通信</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-hello></my-hello>
+    </div>
+
+    <template id="hello">
+        <div>
+            <h3>{{ msg }}</h3>
+            <p>父组件的数据: {{ name }}, {{ age }}, {{ user }}</p>
+            <p>来自子组件的数据: {{ sex }}, {{ birthday }}</p>
+            <hr>
+            <my-world :name="name" :age="age" :user="user" @e-world="getData"></my-world>
+        </div>
+    </template>
+    <template id="world">
+        <div>
+            <h3>{{ msg }}</h3>
+            <p>接受父组件的数据: {{ name }}, {{ age }}, {{ user }}</p>
+            <p>自己的数据: {{ sex }}, {{ birthday }}</p>
+            <button @click="sendData">向父组件发送数据</button>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        new Vue({
+            el: '#app',
+            components: {
+                'my-hello': {
+                    template: '#hello',
+                    data() {
+                        return {
+                            msg: '我是父组件',
+                            name: '小宝',
+                            age: 20,
+                            user: {
+                                name: '小白',
+                                height: 180
+                            },
+                            sex: '',
+                            birthday: ''
+                        }
+                    },
+                    methods:{
+                      getData(sex, birthday){
+                          this.sex = sex;
+                          this.birthday = birthday;
+                      }
+                    },
+                    components: {
+                        'my-world': {
+                            template: '#world',
+                            data(){
+                                return {
+                                    msg: '我是子组件.',
+                                    sex: 'male',
+                                    birthday: '2018-01-01'
+                                }
+                            },
+                            props: {
+                                name: {
+                                    type: String,
+                                    required: true
+                                },
+                                age: {
+                                    type: Number,
+                                    default: 18,
+                                    required: true,
+                                    validator: function (e) {
+                                        return e > 0 && e < 150;
+                                    }
+                                },
+                                user: {
+                                    type: Object
+                                }
+
+                            },
+                            methods: {
+                                sendData(){
+                                    this.$emit('e-world', this.sex, this.birthday); // 向父组件发送数据, 使用 vm.$emit
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>

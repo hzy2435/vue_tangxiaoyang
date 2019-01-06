@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件分类: 全局组件和局部组件</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-hello></my-hello>
+        <my-world></my-world>
+    </div>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+
+        Vue.component('my-hello',{
+            template: '<h3>Hello {{ msg }}!</h3>',
+            data(){
+                return {
+                    msg: 'lps'
+                }
+            }
+        });
+
+        new Vue({
+            el: '#app',
+            components: {
+                'my-world': {
+                    template: '<h3>你好, {{ msg }}!</h3>',
+                    data(){
+                        return {
+                            msg: 'haha'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

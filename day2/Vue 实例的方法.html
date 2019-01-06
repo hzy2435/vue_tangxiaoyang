@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 实例的方法: $set, $delete, $watch</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+
+        window.onload =function(){
+            let vm = new Vue({
+                data: {
+                    user:{
+                        name: 'hello vue.',
+                        age: 33
+                    }
+                },
+                methods: {
+                    addVal(){   // 直接添加属性时, vue 无法对数据进行实时监视.
+                        console.log('添加属性.');
+                        this.user.height=180;
+                    },
+                    addVal1(){
+                        if(!this.user.height){
+                            console.info('通过 $set 添加属性');
+                            this.$set(this.user, 'height', 210);
+                        }
+                    },
+                    addVal2(){
+                        if(!this.user.height){
+                            console.info('通过全局 Vue.set 方法添加属性.');
+                            Vue.set(this.user, 'height', 129);
+                        }
+                    },
+                    delVal(){
+                        if(this.user.height){
+                            console.info('删除属性.');
+                            this.$delete(this.user, "height");
+                        }
+                    },
+                    delVal1(){
+                        if(this.user.height){
+                            console.info('通过全局方法 Vue.delete 删除属性.');
+                            Vue.delete(this.user, "height");
+                        }
+                    }
+                },
+                watch: {
+                    user: {
+                        handler: function (newVal, oldVal) {
+                            console.info('通过 watch 选项检测属性的变化. user.name 发生改变.新值: ' + newVal.age + ', 旧值: ' + oldVal.age);
+                        },
+                        deep: true
+                    }
+                }
+            }).$mount('#app');
+            vm.$watch('user', function (newVal, oldVal) {
+                console.info('通过 vm.$watch 检测属性的变化. user.name 发生改变.新值: ' + newVal.name + ', 旧值: ' + oldVal.name);
+            }, {
+                deep: true
+            });
+        };
+
+    </script>
+
+    <style type="text/css">
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <span v-cloak>{{ user.name }} : {{ user.age }}</span><br>
+        <button @click="addVal2">添加属性</button><br>
+        <span v-cloak>{{ user.height }}</span><br>
+        <button @click="delVal1">删除属性</button><br>
+        <hr>
+        <input v-model="user.name" type="text"><br>
+        <hr>
+        <input v-model="user.age" type="text">
+    </div>
+
+</body>
+</html>

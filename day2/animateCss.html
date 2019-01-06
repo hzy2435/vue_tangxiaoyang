@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue transition 组件使用第三方样式: animate.css</title>
+    <link type="text/css" href="css/animate.css">
+    <script src="js/vue.js"></script>
+    <style type="text/css">
+        p{
+            width: 300px;
+            height: 300px;
+            background-color: red;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+        window.onload=function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    flag: false
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <button @click="flag=!flag">点我</button>
+        <transition-group name="hello"
+                          enter-active-class="animated tada"
+                          leave-active-class="animated bounceOutRight">
+            <p :key="1" v-if="flag">ssh</p>
+            <p :key="2" v-if="flag">ssm</p>
+        </transition-group>
+    </div>
+</body>
+</html>

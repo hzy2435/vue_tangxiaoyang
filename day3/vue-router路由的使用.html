@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-router的使用</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.min.js"></script>
+    <style type="text/css">
+        .router-link-active {
+            font-size: 20px;
+            color: red;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">首页</router-link>
+        <router-link to="/news">新闻</router-link>
+        <router-view></router-view>
+    </div>
+
+    <template id="home">
+        <div>
+            <h3>我是首页</h3>
+        </div>
+    </template>
+    <template id="news">
+        <div>
+            <h3>我是新闻</h3>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+
+        let HOME = {
+            template: '#home'
+        };
+        let NEWS = {
+            template: '#news'
+        };
+
+        const routes=[
+            {
+                path: '/home',
+                component: HOME
+            },
+            {
+                path: '/news',
+                component: NEWS
+            },
+            {
+                path: '*',
+                redirect: '/home'   // 重定向, 为所有路径指定默认跳转路径
+            }
+        ];
+        const router = new VueRouter({
+           routes,
+            //mode: 'history'
+        });
+
+        new Vue({
+            router
+        }).$mount('#app');
+    </script>
+</body>
+</html>

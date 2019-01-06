@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 过渡: transition 内置组件及其钩子函数</title>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+        Vue.config.productionTip=false;
+
+        window.onload=function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    flag: false
+                },
+                methods: {
+                    beforeEnter(){
+                       // alert('beforeEnter');
+                    },
+                    enter(){
+                       // alert('enter');
+                    },
+                    afterEnter(el){
+                       // alert('afterEnter');
+                        el.style.backgroundColor='blue';
+                    },
+                    enterCancelled(){
+                      //  alert('enterCancelled');
+                    },
+                    beforeLeave(){
+                       // alert('beforeLeave');
+                    },
+                    leave(){
+                      //  alert('leave');
+                    },
+                    afterLeave(el){
+                       // alert('afterLeave');
+                        el.style.backgroundColor="red";
+                    },
+                    leaveCancelled(el){
+                       // alert('leaveCancelled');
+                    }
+                }
+            })
+        }
+    </script>
+
+    <style type="text/css">
+        p {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            margin: 0 auto;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: all .3s ease;
+        }
+        .fade-enter-active {
+            opacity: 0;
+            width: 200px;
+            height: 200px;
+        }
+        .fade-leave-active{
+            opacity: 0;
+            width: 200px;
+            height: 200px;
+        }
+        .fade-enter{
+            opacity: 1;
+            width: 50px;
+            height: 50px;
+        }
+        .fade-leave{
+            opacity: 1;
+            width: 50px;
+            height: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="flag=!flag">点我</button>
+        <transition name="fade"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+            @enter-cancelled="enterCancelled"
+
+            @before-leave="beforeLeave"
+            @leave="leave"
+            @after-leave="afterLeave"
+            @leave-cancelled="leaveCancelled"
+        >
+            <p v-show="flag">
+                Vue 动画
+            </p>
+        </transition>
+    </div>
+</body>
+</html>
